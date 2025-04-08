@@ -1,0 +1,156 @@
+/* --------------------------
+   Estilos Generales
+   -------------------------- */
+
+/* Agregar fondo claro al cuerpo de la página */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+/* --------------------------
+   Navbar Personalizado
+   -------------------------- */
+
+.custom-navbar {
+    background-color: #1c1c1c; /* Fondo oscuro */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #fff; /* Texto blanco */
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    background-color: #6f42c1; /* Color de hover */
+    border-radius: 5px;
+}
+
+/* --------------------------
+   Botones Personalizados
+   -------------------------- */
+
+/* Botón principal de la cartelera */
+.btn-cine {
+    background-color: #6f42c1;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-cine:hover {
+    background-color: #4e2c97;
+}
+
+/* --------------------------
+   Cartelera y Películas
+   -------------------------- */
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.card img {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.05); /* Efecto zoom en la imagen */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* --------------------------
+   Footer Personalizado
+   -------------------------- */
+
+.footer {
+    background-color: #2f2f2f;
+    color: #bbb;
+    font-size: 14px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.footer p {
+    margin-bottom: 0;
+}
+
+/* --------------------------
+   Formulario de Búsqueda
+   -------------------------- */
+
+/* Estilo para el formulario de búsqueda */
+.form-group input, .form-group select {
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.form-group button {
+    background-color: #6f42c1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #4e2c97;
+}
+
+/* --------------------------
+   Géneros y Otros Elementos
+   -------------------------- */
+
+/* Estilo para el badge del género */
+.badge {
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+/* Modificar el botón de "Ver detalles" a color azul */
+.btn-custom {
+    background-color: #007bff; /* Azul */
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+}

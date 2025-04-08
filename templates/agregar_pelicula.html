@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Agregar Nueva Película</h2>
+        
+        <form method="POST" action="{{ url_for('agregar_pelicula') }}" enctype="multipart/form-data">
+            <!-- Título -->
+            <div class="form-group">
+                <label for="title">Título</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+
+            <!-- Género -->
+            <div class="form-group">
+                <label for="genre">Género</label>
+                <input type="text" class="form-control" id="genre" name="genre" required>
+            </div>
+
+            <!-- Imagen (subir archivo) -->
+            <div class="form-group">
+                <label for="image_file">Imagen de la Película</label>
+                <input type="file" class="form-control" id="image_file" name="image_file" required>
+            </div>
+
+            <!-- Duración -->
+            <div class="form-group">
+                <label for="duration">Duración (minutos)</label>
+                <input type="number" class="form-control" id="duration" name="duration" required>
+            </div>
+
+            <!-- Fecha de Estreno -->
+            <div class="form-group">
+                <label for="release_date">Fecha de Estreno</label>
+                <input type="date" class="form-control" id="release_date" name="release_date" required>
+            </div>
+
+               <!-- Sala -->
+            <div class="form-group">
+                <label for="sala">Sala</label>
+                <input type="text" class="form-control" id="sala" name="sala" required>
+            </div>
+
+            <!-- URL del Tráiler -->
+            <div class="form-group">
+                <label for="trailer_url">URL del Tráiler</label>
+                <input type="text" class="form-control" id="trailer_url" name="trailer_url">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar Película</button>
+            <a href="{{ url_for('panel_admin') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

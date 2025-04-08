@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Panel de Administración</h2>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Cerrar sesión</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="mb-3">
+        <a href="{{ url_for('agregar_pelicula') }}" class="btn btn-success">Agregar Nueva Película</a>
+    </div>
+
+    {% if peliculas %}
+        <div class="row">
+            {% for pelicula in peliculas %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='uploads/' + pelicula.image_url) }}" alt="{{ pelicula.title }}" class="img-fluid rounded shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pelicula.title }}</h5>
+                            <p class="card-text">{{ pelicula.genre }} | {{ pelicula.duration }} min</p>
+                            <p class="card-text"><small class="text-muted">Estreno: {{ pelicula.release_date }}</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="{{ url_for('detalle_pelicula', id=pelicula.id) }}" class="btn btn-secondary">Ver detalles</a>
+                            <a href="{{ url_for('editar_pelicula', id=pelicula.id) }}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{{ url_for('eliminar_pelicula', id=pelicula.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No hay películas registradas.</p>
+    {% endif %}
+</div>
+{% endblock %}
