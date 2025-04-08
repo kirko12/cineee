@@ -36,4 +36,5 @@ class Config:
     UPLOAD_FOLDER = os.path.join('static', 'uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-    DEBUG = True
+    # Debug controlado por variable de entorno
+    DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
