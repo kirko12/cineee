@@ -21,6 +21,16 @@ mail = Mail(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+# Agregar funciones para imprimir mensajes de depuración
+@app.before_first_request
+def before_first_request():
+    print("Inicializando la app...")
+
+@app.after_request
+def after_request(response):
+    print(f"Solicitud procesada con status {response.status}")
+    return response
+
 # Cargar el usuario actual
 @login_manager.user_loader
 def load_user(user_id):
