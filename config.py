@@ -1,4 +1,5 @@
 import os
+import cloudinary
 from dotenv import load_dotenv
 from urllib.parse import quote
 
@@ -42,3 +43,9 @@ class Config:
 
     # Debug controlado por variable de entorno
     DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
+
+    cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
