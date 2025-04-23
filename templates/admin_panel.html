@@ -29,7 +29,7 @@
             {% for pelicula in peliculas %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="{{ url_for('static', filename='uploads/' + pelicula.image_url) }}" alt="{{ pelicula.title }}" class="img-fluid rounded shadow">
+                        <img src="{{ pelicula.image_url }}" alt="{{ pelicula.title }}" class="img-fluid rounded shadow">
                         <div class="card-body">
                             <h5 class="card-title">{{ pelicula.title }}</h5>
                             <p class="card-text">{{ pelicula.genre }} | {{ pelicula.duration }} min</p>

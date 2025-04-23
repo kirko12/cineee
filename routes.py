@@ -1,4 +1,6 @@
-from flask import render_template, redirect, url_for, request, flash
+import cloudinary
+import cloudinary.uploader
+from flask import current_app, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from app import app, db
 from models import Pelicula, Usuario
@@ -6,6 +8,7 @@ from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 import os
 from config import Config
+
 
 # Ruta principal (Cartelera)
 @app.route('/', methods=['GET', 'POST'])
@@ -84,16 +87,23 @@ def agregar_pelicula():
         # Procesar la imagen subida
         image_file = request.files['image_file']
         if image_file and allowed_file(image_file.filename):
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)  # Guardar la imagen en la carpeta
+           # Configurar Cloudinary (solo una vez)
+            cloudinary.config(
+                cloud_name=current_app.config['CLOUDINARY_CLOUD_NAME'],
+                api_key=current_app.config['CLOUDINARY_API_KEY'],
+                api_secret=current_app.config['CLOUDINARY_API_SECRET']
+            )
+
+            # Subir a Cloudinary
+            result = cloudinary.uploader.upload(image_file)
+            image_url = result['secure_url']  # Obtener la URL segura
 
             # Crear una nueva película en la base de datos
             nueva_pelicula = Pelicula(
                 title=title,
                 description=description,
                 genre=genre,
-                image_url=filename,  # Guardamos la ruta del archivo en la base de datos
+                image_url=image_url,  # Guardamos la ruta del archivo en la base de datos
                 duration=duration,
                 release_date=release_date,
                 trailer_url=trailer_url,
@@ -131,10 +141,17 @@ def editar_pelicula(id):
         # Procesar la imagen subida (solo si se proporciona una nueva imagen)
         image_file = request.files.get('image_file')
         if image_file and allowed_file(image_file.filename):
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            pelicula.image_url = filename  # Actualizar la ruta de la imagen
+            # Configurar Cloudinary (solo una vez)
+            cloudinary.config(
+                cloud_name=current_app.config['CLOUDINARY_CLOUD_NAME'],
+                api_key=current_app.config['CLOUDINARY_API_KEY'],
+                api_secret=current_app.config['CLOUDINARY_API_SECRET']
+            )
+
+            # Subir a Cloudinary
+            result = cloudinary.uploader.upload(image_file)
+            image_url = result['secure_url']  # Obtener la URL segura
+            pelicula.image_url = image_url  # Actualizar la ruta de la imagen
 
         db.session.commit()
         flash("Película actualizada correctamente", "success")

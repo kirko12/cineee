@@ -34,6 +34,10 @@ class Config:
     # Seguridad y media
     SECRET_KEY = os.getenv('SECRET_KEY')
     UPLOAD_FOLDER = os.path.join('static', 'uploads')
+      # Cloudinary config
+    CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
+    CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY')
+    CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
     # Debug controlado por variable de entorno
