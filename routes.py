@@ -71,8 +71,8 @@ def panel_admin():
 @app.route('/admin/agregar', methods=['GET', 'POST'])
 @login_required
 def agregar_pelicula():
-    if not current_user.is_admin:  # Verificar si el usuario es admin
-        return redirect(url_for('home'))  # Redirigir a la página principal si no es admin
+    if not current_user.is_admin:
+        return redirect(url_for('home'))
 
     if request.method == 'POST':
         title = request.form['title']
@@ -83,27 +83,17 @@ def agregar_pelicula():
         trailer_url = request.form['trailer_url']
         sala = request.form['sala']
 
-
-        # Procesar la imagen subida
         image_file = request.files['image_file']
         if image_file and allowed_file(image_file.filename):
-           # Configurar Cloudinary (solo una vez)
-            cloudinary.config(
-                cloud_name=current_app.config['CLOUDINARY_CLOUD_NAME'],
-                api_key=current_app.config['CLOUDINARY_API_KEY'],
-                api_secret=current_app.config['CLOUDINARY_API_SECRET']
-            )
-
-            # Subir a Cloudinary
+            # Ya no necesitas reconfigurar Cloudinary aquí
             result = cloudinary.uploader.upload(image_file)
-            image_url = result['secure_url']  # Obtener la URL segura
+            image_url = result['secure_url']
 
-            # Crear una nueva película en la base de datos
             nueva_pelicula = Pelicula(
                 title=title,
                 description=description,
                 genre=genre,
-                image_url=image_url,  # Guardamos la ruta del archivo en la base de datos
+                image_url=image_url,
                 duration=duration,
                 release_date=release_date,
                 trailer_url=trailer_url,
@@ -112,12 +102,11 @@ def agregar_pelicula():
             db.session.add(nueva_pelicula)
             db.session.commit()
             flash("Película agregada correctamente", "success")
-            return redirect(url_for('panel_admin'))  # Redirigir al panel de admin
+            return redirect(url_for('panel_admin'))
         else:
             flash("El archivo de imagen no es válido", "danger")
-    
-    return render_template('agregar_pelicula.html')
 
+    return render_template('agregar_pelicula.html')
 
 # Ruta para editar una película (protegida)
 @app.route('/admin/editar/<int:id>', methods=['GET', 'POST'])
@@ -126,32 +115,22 @@ def editar_pelicula(id):
     if not current_user.is_authenticated or not current_user.is_admin:
         return redirect(url_for('home'))
 
-    pelicula = Pelicula.query.get(id)  # Obtener la película por su ID
+    pelicula = Pelicula.query.get(id)
     if request.method == 'POST':
-        # Actualizar los datos de la película
         pelicula.title = request.form['title']
         pelicula.description = request.form['description']
         pelicula.genre = request.form['genre']
         pelicula.duration = request.form['duration']
         pelicula.release_date = request.form['release_date']
         pelicula.trailer_url = request.form['trailer_url']
-        pelicula.sala = request.form['sala']  # ✅ Esto lo agregas también
+        pelicula.sala = request.form['sala']
 
-
-        # Procesar la imagen subida (solo si se proporciona una nueva imagen)
         image_file = request.files.get('image_file')
         if image_file and allowed_file(image_file.filename):
-            # Configurar Cloudinary (solo una vez)
-            cloudinary.config(
-                cloud_name=current_app.config['CLOUDINARY_CLOUD_NAME'],
-                api_key=current_app.config['CLOUDINARY_API_KEY'],
-                api_secret=current_app.config['CLOUDINARY_API_SECRET']
-            )
-
-            # Subir a Cloudinary
+            # Cloudinary ya está configurado en config.py
             result = cloudinary.uploader.upload(image_file)
-            image_url = result['secure_url']  # Obtener la URL segura
-            pelicula.image_url = image_url  # Actualizar la ruta de la imagen
+            image_url = result['secure_url']
+            pelicula.image_url = image_url  # Actualiza la imagen
 
         db.session.commit()
         flash("Película actualizada correctamente", "success")
